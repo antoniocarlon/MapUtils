@@ -4,7 +4,7 @@ Utilities for Google Maps Android API v2
 
 ### Current version
 
-v0.1.0
+v0.2.0
 
 ## ExpandedMBTilesTileProvider
 
@@ -17,6 +17,29 @@ TileProvider tileProvider = new ExpandedMBTilesTileProvider(new File("/sdcard/my
 TileOverlay tileOverlay = mMap.addTileOverlay(
      new TileOverlayOptions()
         .tileProvider(tileProvider));
+```
+
+## CameraUpdateAnimator
+
+Animaes the camera position chaining a series of CameraUpdates with a given delay between them and allowing camera to move or animate.
+
+### Usage:
+
+```
+// Create a new CameraUpdateAnimator for a given mMap
+// with an OnCameraIdleListener to set when the animation ends
+CameraUpdateAnimator animator = new CameraUpdateAnimator(mMap, mOnCameraIdleListener);
+
+// Add animations
+animator.add(CameraUpdateFactory.newLatLngZoom(new LatLng(40.421, -3.71), 17), true, 1000); // Animate the camera with a 1000 milliseconds delay
+animator.add(CameraUpdateFactory.newLatLngZoom(new LatLng(40.421, -3.71), 18), false, 500); // Move the camera (no animation) with a 500 milliseconds delay
+animator.add(CameraUpdateFactory.newLatLngZoom(new LatLng(40.422, -3.72), 18), true, 500);
+animator.add(CameraUpdateFactory.newLatLngZoom(new LatLng(40.422, -3.72), 19), false, 1000);
+animator.add(CameraUpdateFactory.newLatLngZoom(new LatLng(40.423, -3.73), 19), true, 500);
+animator.add(CameraUpdateFactory.newLatLngZoom(new LatLng(40.421, -3.71), 17), true, 1000);
+
+// Execute the animation and set the final OnCameraIdleListener
+animator.execute();
 ```
 
 ## License
